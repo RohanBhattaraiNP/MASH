@@ -41,20 +41,33 @@ void getTimeFromHTTP() {
       
       // Extract datetime
       int datetimeIndex = response.indexOf("\"datetime\":\"");
+      String datetime = "";
       if (datetimeIndex > 0) {
         int start = datetimeIndex + 12;
         int end = response.indexOf("\"", start);
-        String datetime = response.substring(start, end);
-        Serial.print("Current Time: ");
-        Serial.println(datetime);
+        datetime = response.substring(start, end);
       }
       
       // Extract unix time
+      long unixtime = 0;
       int unixtimeIndex = response.indexOf("\"unixtime\":");
       if (unixtimeIndex > 0) {
         int start = unixtimeIndex + 11;
         int end = response.indexOf(",", start);
-        String unixtime = response.substring(start, end);
+        String unixtimeStr = response.substring(start, end);
+        unixtime = unixtimeStr.toInt();
+      }
+      
+      // Parse and print readable time
+      // Format: 2026-01-16T14:23:45
+      if (datetime.length() > 0) {
+        String date = datetime.substring(0, 10);  // 2026-01-16
+        String time = datetime.substring(11, 19); // 14:23:45
+        
+        Serial.print("Date: ");
+        Serial.println(date);
+        Serial.print("Time: ");
+        Serial.println(time);
         Serial.print("Unix Timestamp: ");
         Serial.println(unixtime);
       }

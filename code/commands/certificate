@@ -3,3 +3,7 @@ Click the padlock icon and then click on Certificate and then click on details a
 
 
 secureClient.setCACert(influxRootCACert);
+
+
+to view the contents of certificate
+openssl x509 -in certificate.pem -text
